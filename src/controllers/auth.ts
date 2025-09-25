@@ -6,7 +6,6 @@ import { BadRequestException } from '../exceptions/bad-request';
 import { errorcode } from '../exceptions/root';
 import { UserNotFound } from '../exceptions/user_not_found';
 import { IncorrectPassword } from '../exceptions/Incorrect_password';
-import { UnprocessableEntity } from '../exceptions/validation';
 import { SignUpSchema } from '../models/users';
 
 
@@ -53,5 +52,12 @@ export const login= async (req:Request,res:Response ,next:NextFunction)=>{
     },JWT_SECRET)
 
     res.json({user,token})
+    
+}
+
+// me-> return the logged in user details
+export const me= async (req:Request,res:Response ,next:NextFunction)=>{
+    
+    res.json(req.user)
     
 }

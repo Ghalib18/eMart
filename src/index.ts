@@ -6,7 +6,7 @@ import { errorMiddleware } from './middlewares/error';
 import { SignUpSchema } from './models/users';
  dotenv.config({path:".env"})
  const PORT=process.env.PORT
-  export const JWT_SECRET=process.env.JWT_SECRET!
+ export const JWT_SECRET=process.env.JWT_SECRET!
 const app=express();
 app.use(express.json())
 app.use("/api",rootRouter);

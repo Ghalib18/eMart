@@ -21,4 +21,5 @@ var errorcode;
     errorcode[errorcode["MISSING_FIELDS"] = 1004] = "MISSING_FIELDS";
     errorcode[errorcode["UNPROCESSABLE_ENTITY"] = 1000] = "UNPROCESSABLE_ENTITY";
     errorcode[errorcode["INTERNAL_PROBLEM"] = 1111] = "INTERNAL_PROBLEM";
+    errorcode[errorcode["UNAUTHORIZED_ACCESS"] = 1112] = "UNAUTHORIZED_ACCESS";
 })(errorcode || (exports.errorcode = errorcode = {}));

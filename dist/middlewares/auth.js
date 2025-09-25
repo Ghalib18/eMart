@@ -42,56 +42,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.me = exports.login = exports.signup = void 0;
-const __1 = require("..");
-const bcrypt_1 = require("bcrypt");
-const jwt = __importStar(require("jsonwebtoken"));
-const bad_request_1 = require("../exceptions/bad-request");
+exports.authMiddleware = void 0;
+const Unauthorized_1 = require("../exceptions/Unauthorized");
 const root_1 = require("../exceptions/root");
-const user_not_found_1 = require("../exceptions/user_not_found");
-const Incorrect_password_1 = require("../exceptions/Incorrect_password");
-const users_1 = require("../models/users");
-// for signup-part....
-const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    users_1.SignUpSchema.parse(req.body);
-    const { name, email, password } = req.body;
-    let user = yield __1.prismaClient.user.findFirst({ where: { email } });
-    if (user) {
-        next(new bad_request_1.BadRequestException('User already exists', root_1.errorcode.USER_ALREADY_EXISTS));
+const jwt = __importStar(require("jsonwebtoken"));
+const __1 = require("..");
+const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    // extract the token from the header
+    const token = req.headers.authorization;
+    // 2. if token is not present , throw an error of unauthorized
+    if (!token) {
+        next(new Unauthorized_1.Unauthorized('Unauthorized', root_1.errorcode.UNAUTHORIZED_ACCESS));
+        return;
     }
-    user = yield __1.prismaClient.user.create({
-        data: {
-            name,
-            email,
-            password: (0, bcrypt_1.hashSync)(password, 10)
+    // 3.if token is present please verify the token and extract the playload
+    try {
+        const payload = jwt.verify(token, __1.JWT_SECRET);
+        // 4. to get the user from the playload
+        const user = yield __1.prismaClient.user.findFirst({ where: { id: payload.userId } });
+        if (!user) {
+            next(new Unauthorized_1.Unauthorized('unauthorized-Acess', root_1.errorcode.UNAUTHORIZED_ACCESS));
+            return;
         }
-    });
-    res.json(user);
-});
-exports.signup = signup;
-// for login part....
-const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    if (!email || !password) {
-        next(new bad_request_1.BadRequestException('All the fields are necessary', root_1.errorcode.MISSING_FIELDS));
+        // 5. to attach the user to the current request object
+        req.user = user;
+        next();
     }
-    const user = yield __1.prismaClient.user.findFirst({ where: { email } });
-    if (!user) {
-        next(new user_not_found_1.UserNotFound('User not found', root_1.errorcode.USER_NOT_FOUND));
-        return;
+    catch (error) {
+        next(new Unauthorized_1.Unauthorized('unathorized_Acess', root_1.errorcode.UNAUTHORIZED_ACCESS));
     }
-    if (!(0, bcrypt_1.compareSync)(password, user.password)) {
-        next(new Incorrect_password_1.IncorrectPassword('Password is incorrect', root_1.errorcode.INCORRECT_PASSWORD));
-        return;
-    }
-    const token = jwt.sign({
-        userId: user.id
-    }, __1.JWT_SECRET);
-    res.json({ user, token });
 });
-exports.login = login;
-// me-> return the logged in user details
-const me = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json(req.user);
-});
-exports.me = me;
+exports.authMiddleware = authMiddleware;
