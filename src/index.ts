@@ -1,9 +1,9 @@
 import express ,{Request ,Response} from 'express'
 import dotenv from 'dotenv'
 import rootRouter from './routes';
-// import { PrismaClient } from '@prisma/client';
 import { PrismaClient } from '../src/generated/prisma';
 import { errorMiddleware } from './middlewares/error';
+import { SignUpSchema } from './models/users';
  dotenv.config({path:".env"})
  const PORT=process.env.PORT
   export const JWT_SECRET=process.env.JWT_SECRET!

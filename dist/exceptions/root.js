@@ -19,4 +19,6 @@ var errorcode;
     errorcode[errorcode["USER_ALREADY_EXISTS"] = 1002] = "USER_ALREADY_EXISTS";
     errorcode[errorcode["INCORRECT_PASSWORD"] = 1003] = "INCORRECT_PASSWORD";
     errorcode[errorcode["MISSING_FIELDS"] = 1004] = "MISSING_FIELDS";
+    errorcode[errorcode["UNPROCESSABLE_ENTITY"] = 1000] = "UNPROCESSABLE_ENTITY";
+    errorcode[errorcode["INTERNAL_PROBLEM"] = 1111] = "INTERNAL_PROBLEM";
 })(errorcode || (exports.errorcode = errorcode = {}));

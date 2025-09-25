@@ -50,12 +50,11 @@ const bad_request_1 = require("../exceptions/bad-request");
 const root_1 = require("../exceptions/root");
 const user_not_found_1 = require("../exceptions/user_not_found");
 const Incorrect_password_1 = require("../exceptions/Incorrect_password");
+const users_1 = require("../models/users");
 // for signup-part....
 const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    users_1.SignUpSchema.parse(req.body);
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        next(new bad_request_1.BadRequestException('All the fields are necessary', root_1.errorcode.MISSING_FIELDS));
-    }
     let user = yield __1.prismaClient.user.findFirst({ where: { email } });
     if (user) {
         next(new bad_request_1.BadRequestException('User already exists', root_1.errorcode.USER_ALREADY_EXISTS));

@@ -6,14 +6,14 @@ import { BadRequestException } from '../exceptions/bad-request';
 import { errorcode } from '../exceptions/root';
 import { UserNotFound } from '../exceptions/user_not_found';
 import { IncorrectPassword } from '../exceptions/Incorrect_password';
+import { UnprocessableEntity } from '../exceptions/validation';
+import { SignUpSchema } from '../models/users';
 
 
 // for signup-part....
 export const signup= async(req:Request,res:Response,next:NextFunction)=>{
-     const {name, email,password}=req.body;
-     if(!name||!email||!password){
-       next(new BadRequestException('All the fields are necessary',errorcode.MISSING_FIELDS))
-     }
+     SignUpSchema.parse(req.body)
+      const {name, email,password}=req.body;
      let user=await prismaClient.user.findFirst({where:{email}})
      if(user){
          next(new BadRequestException('User already exists',errorcode.USER_ALREADY_EXISTS))
@@ -25,7 +25,9 @@ export const signup= async(req:Request,res:Response,next:NextFunction)=>{
             password :hashSync(password ,10)
         }
      })
+
      res.json(user)
+
 }
 
 // for login part....

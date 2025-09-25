@@ -7,7 +7,6 @@ exports.prismaClient = exports.JWT_SECRET = void 0;
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const routes_1 = __importDefault(require("./routes"));
-// import { PrismaClient } from '@prisma/client';
 const prisma_1 = require("../src/generated/prisma");
 const error_1 = require("./middlewares/error");
 dotenv_1.default.config({ path: ".env" });
