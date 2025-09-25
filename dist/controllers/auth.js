@@ -46,18 +46,19 @@ exports.login = exports.signup = void 0;
 const __1 = require("..");
 const bcrypt_1 = require("bcrypt");
 const jwt = __importStar(require("jsonwebtoken"));
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const bad_request_1 = require("../exceptions/bad-request");
+const root_1 = require("../exceptions/root");
+const user_not_found_1 = require("../exceptions/user_not_found");
+const Incorrect_password_1 = require("../exceptions/Incorrect_password");
+// for signup-part....
+const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
-        return res.json({
-            message: "all field are required"
-        });
+        next(new bad_request_1.BadRequestException('All the fields are necessary', root_1.errorcode.MISSING_FIELDS));
     }
     let user = yield __1.prismaClient.user.findFirst({ where: { email } });
     if (user) {
-        return res.json({
-            message: "user already exist"
-        });
+        next(new bad_request_1.BadRequestException('User already exists', root_1.errorcode.USER_ALREADY_EXISTS));
     }
     user = yield __1.prismaClient.user.create({
         data: {
@@ -69,23 +70,20 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(user);
 });
 exports.signup = signup;
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// for login part....
+const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.json({
-            error: "all fields are required"
-        });
+        next(new bad_request_1.BadRequestException('All the fields are necessary', root_1.errorcode.MISSING_FIELDS));
     }
     const user = yield __1.prismaClient.user.findFirst({ where: { email } });
     if (!user) {
-        return res.json({
-            error: "User does't exist"
-        });
+        next(new user_not_found_1.UserNotFound('User not found', root_1.errorcode.USER_NOT_FOUND));
+        return;
     }
     if (!(0, bcrypt_1.compareSync)(password, user.password)) {
-        return res.json({
-            error: "Password is incorrect"
-        });
+        next(new Incorrect_password_1.IncorrectPassword('Password is incorrect', root_1.errorcode.INCORRECT_PASSWORD));
+        return;
     }
     const token = jwt.sign({
         userId: user.id
