@@ -7,4 +7,6 @@ const auth_1 = require("../middlewares/auth");
 const admin_1 = require("../middlewares/admin");
 const productRouter = (0, express_1.Router)();
 productRouter.post('/create', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.createProduct));
+productRouter.put('/update/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.updateProduct));
+productRouter.delete('/delete/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.deleteProduct));
 exports.default = productRouter;
