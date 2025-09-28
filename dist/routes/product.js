@@ -9,4 +9,6 @@ const productRouter = (0, express_1.Router)();
 productRouter.post('/create', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.createProduct));
 productRouter.put('/update/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.updateProduct));
 productRouter.delete('/delete/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.deleteProduct));
+productRouter.get('/listproduct', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.listProduct));
+productRouter.get('/getbyid/:id', [auth_1.authMiddleware, admin_1.adminMiddleware], (0, error_handler_1.errorHandler)(product_1.getProductById));
 exports.default = productRouter;
