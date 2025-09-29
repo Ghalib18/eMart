@@ -22,4 +22,5 @@ var errorcode;
     errorcode[errorcode["UNPROCESSABLE_ENTITY"] = 1000] = "UNPROCESSABLE_ENTITY";
     errorcode[errorcode["INTERNAL_PROBLEM"] = 1111] = "INTERNAL_PROBLEM";
     errorcode[errorcode["UNAUTHORIZED_ACCESS"] = 1112] = "UNAUTHORIZED_ACCESS";
+    errorcode[errorcode["ADDRESS_NOT_FOUND"] = 9999] = "ADDRESS_NOT_FOUND";
 })(errorcode || (exports.errorcode = errorcode = {}));

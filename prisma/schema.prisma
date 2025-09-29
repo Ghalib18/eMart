@@ -24,16 +24,33 @@ model User {
   email String @unique
   password String
   role Role @default(USER)
+  addresses Address []
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
+model Address {
+ id  Int @id @default(autoincrement())
+ lineOne String
+ lineTwo String?
+ city String
+ state String
+ country String
+ pincode String
+ userId Int
+ user User @relation(fields: [userId],references: [id])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+
+  @@map("addresses")
+}
+
 model Product {
   id Int @id @default(autoincrement())
   name String
-  desc String
+  desc String @db.Text
   price Decimal
   tags String
   createdAt DateTime @default(now())

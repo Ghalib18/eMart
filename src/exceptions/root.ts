@@ -10,7 +10,7 @@
 
     constructor(message:string ,errorCode:errorcode ,statusCode:number,error:any){
         super()
-        this.message=message,
+         this.message=message,
         this.errorCode=errorCode,
         this.statusCode=statusCode,
         this.errors=error
@@ -25,5 +25,6 @@ export enum errorcode{
     UNPROCESSABLE_ENTITY=1000,
     INTERNAL_PROBLEM=1111,
     UNAUTHORIZED_ACCESS=1112,
+    ADDRESS_NOT_FOUND=9999,
 
 }

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prismaClient } from "..";
-import { UserNotFound } from "../exceptions/user_not_found";
+import { NotFoundException } from "../exceptions/user_not_found";
 import { errorcode } from "../exceptions/root";
 import { json } from "zod";
 
@@ -34,7 +34,7 @@ export const updateProduct =async (req:Request , res:Response )=>{
          })
           res.json(updateProduct)
     } catch (error) {
-        throw new UserNotFound('Product not found',errorcode.USER_NOT_FOUND)
+        throw new NotFoundException('Product not found',errorcode.USER_NOT_FOUND)
     }
 }
  
@@ -49,7 +49,7 @@ export const  deleteProduct =async (req:Request,res:Response) => {
         })
         res.json(deleteproduct)
      } catch (error) {
-        throw new UserNotFound('Product not found',errorcode.USER_NOT_FOUND)
+        throw new NotFoundException('Product not found',errorcode.USER_NOT_FOUND)
      }
 }
 
@@ -89,7 +89,7 @@ export const getProductById=async (req:Request,res:Response)=>{
        res.json(product)
 
     } catch (error) {
-        throw new UserNotFound('Product not found',errorcode.USER_NOT_FOUND)
+        throw new NotFoundException('Product not found',errorcode.USER_NOT_FOUND)
     
     }
 }

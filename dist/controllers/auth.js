@@ -77,7 +77,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
     const user = yield __1.prismaClient.user.findFirst({ where: { email } });
     if (!user) {
-        next(new user_not_found_1.UserNotFound('User not found', root_1.errorcode.USER_NOT_FOUND));
+        next(new user_not_found_1.NotFoundException('User not found', root_1.errorcode.USER_NOT_FOUND));
         return;
     }
     if (!(0, bcrypt_1.compareSync)(password, user.password)) {

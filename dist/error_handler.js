@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const root_1 = require("./exceptions/root");
 const Internal_exception_1 = require("./exceptions/Internal-exception");
+const zod_1 = require("zod");
+const bad_request_1 = require("./exceptions/bad-request");
 const errorHandler = (method) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -23,7 +25,12 @@ const errorHandler = (method) => {
                 exception = error;
             }
             else {
-                exception = new Internal_exception_1.InternalException('Something went Wrong!', root_1.errorcode.INTERNAL_PROBLEM, error);
+                if (error instanceof zod_1.ZodError) {
+                    exception = new bad_request_1.BadRequestException('Cant meet the zod validation', root_1.errorcode.MISSING_FIELDS, error);
+                }
+                else {
+                    exception = new Internal_exception_1.InternalException('Something went Wrong!', root_1.errorcode.INTERNAL_PROBLEM, error);
+                }
             }
             next(exception);
         }

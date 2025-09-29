@@ -5,3 +5,14 @@ import {z} from 'zod'
     email: z.string().email(),
     password : z.string().min(6)
 })
+
+export const AddressSchema= z.object({
+    lineOne : z.string(),
+    lineTwo :z.string().nullable(),
+    pincode :z.string().length(6),
+    city: z.string(),
+    state :z.string(),
+    country :z.string()
+
+
+})

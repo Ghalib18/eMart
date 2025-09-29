@@ -4,7 +4,7 @@ import {hashSync, compareSync} from 'bcrypt';
 import * as jwt from 'jsonwebtoken'
 import { BadRequestException } from '../exceptions/bad-request';
 import { errorcode } from '../exceptions/root';
-import { UserNotFound } from '../exceptions/user_not_found';
+import { NotFoundException } from '../exceptions/user_not_found';
 import { IncorrectPassword } from '../exceptions/Incorrect_password';
 import { SignUpSchema } from '../models/users';
 
@@ -39,7 +39,7 @@ export const login= async (req:Request,res:Response ,next:NextFunction)=>{
     const user=await prismaClient.user.findFirst({where:{email}})
 
     if(!user){
-       next( new UserNotFound('User not found',errorcode.USER_NOT_FOUND))
+       next( new NotFoundException('User not found',errorcode.USER_NOT_FOUND))
        return
     }
     if(!compareSync(password,user.password)){

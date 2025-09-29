@@ -1,6 +1,8 @@
 import { NextFunction, Request,Response } from "express"
 import { errorcode, HttpException } from "./exceptions/root";
 import { InternalException } from "./exceptions/Internal-exception";
+import { ZodError } from "zod";
+import { BadRequestException } from "./exceptions/bad-request";
 
 export const errorHandler=  (method :Function)=>{
     return async(req:Request,res:Response,next:NextFunction)=>{
@@ -13,7 +15,13 @@ export const errorHandler=  (method :Function)=>{
                 exception=error;
             }
             else{
-                exception= new InternalException('Something went Wrong!',errorcode.INTERNAL_PROBLEM,error)
+                if(error instanceof ZodError){
+                    exception =new BadRequestException('Cant meet the zod validation',errorcode.MISSING_FIELDS,error)
+                }
+                else{
+                    exception= new InternalException('Something went Wrong!',errorcode.INTERNAL_PROBLEM,error)
+                }
+                
             }
              next(exception)
         }

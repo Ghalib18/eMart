@@ -37,7 +37,7 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.json(updateProduct);
     }
     catch (error) {
-        throw new user_not_found_1.UserNotFound('Product not found', root_1.errorcode.USER_NOT_FOUND);
+        throw new user_not_found_1.NotFoundException('Product not found', root_1.errorcode.USER_NOT_FOUND);
     }
 });
 exports.updateProduct = updateProduct;
@@ -52,7 +52,7 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.json(deleteproduct);
     }
     catch (error) {
-        throw new user_not_found_1.UserNotFound('Product not found', root_1.errorcode.USER_NOT_FOUND);
+        throw new user_not_found_1.NotFoundException('Product not found', root_1.errorcode.USER_NOT_FOUND);
     }
 });
 exports.deleteProduct = deleteProduct;
@@ -85,7 +85,7 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.json(product);
     }
     catch (error) {
-        throw new user_not_found_1.UserNotFound('Product not found', root_1.errorcode.USER_NOT_FOUND);
+        throw new user_not_found_1.NotFoundException('Product not found', root_1.errorcode.USER_NOT_FOUND);
     }
 });
 exports.getProductById = getProductById;
