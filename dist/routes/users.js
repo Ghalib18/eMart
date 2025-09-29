@@ -8,4 +8,5 @@ const addressRouter = (0, express_1.Router)();
 addressRouter.post('/add', [auth_1.authMiddleware], (0, error_handler_1.errorHandler)(users_1.addAddress));
 addressRouter.delete('/delete/:id', [auth_1.authMiddleware], (0, error_handler_1.errorHandler)(users_1.deleteAddress));
 addressRouter.get('/listadd', [auth_1.authMiddleware], (0, error_handler_1.errorHandler)(users_1.listAll));
+addressRouter.put('/', [auth_1.authMiddleware], (0, error_handler_1.errorHandler)(users_1.UpdatingUser));
 exports.default = addressRouter;

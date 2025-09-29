@@ -24,7 +24,10 @@ model User {
   email String @unique
   password String
   role Role @default(USER)
+  defaultShipingAddressId Int?
+  defaultBillingAddressId Int?
   addresses Address []
+  cartItems CartItem[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -53,8 +56,23 @@ model Product {
   desc String @db.Text
   price Decimal
   tags String
+  cardItems CartItem[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("products")
+}
+
+model CartItem {
+
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  productId Int
+  product Product @relation(fields:[productId],references: [id])
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cart_items")
 }

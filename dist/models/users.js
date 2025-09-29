@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddressSchema = exports.SignUpSchema = void 0;
+exports.UpdateUserSchema = exports.AddressSchema = exports.SignUpSchema = void 0;
 const zod_1 = require("zod");
 exports.SignUpSchema = zod_1.z.object({
     name: zod_1.z.string(),
@@ -14,4 +14,9 @@ exports.AddressSchema = zod_1.z.object({
     city: zod_1.z.string(),
     state: zod_1.z.string(),
     country: zod_1.z.string()
+});
+exports.UpdateUserSchema = zod_1.z.object({
+    name: zod_1.z.string().optional(),
+    defaultShipingAddressId: zod_1.z.number().optional(),
+    defaultBillingAddressId: zod_1.z.number().optional(),
 });
